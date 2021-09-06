@@ -10,7 +10,7 @@ int main(int argc, char const *argv[])
     config.title     = "Plotteron";
     config.width     = 800;
     config.height    = 600;
-    config.resizable = false;
+//    config.resizable = false;
     config.msaa      = true;
     config.center    = true;
     // config.decorated = false;

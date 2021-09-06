@@ -10,12 +10,19 @@
 
 #include <Mahi/Gui.hpp>
 
+#include "devicewidget.hpp"
+
 
 class PlotteronApp : public mahi::gui::Application {
 public:
-    PlotteronApp(const Application::Config config) : mahi::gui::Application(config) {};
+    PlotteronApp(const Application::Config config);
     
     void update() override;
+
+private:
+    DeviceWidget device_widget;
+    
+    void reposition_widgets();
 };
 
 
