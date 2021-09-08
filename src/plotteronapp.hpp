@@ -11,6 +11,7 @@
 #include <Mahi/Gui.hpp>
 
 #include "devicewidget.hpp"
+#include "plotwidget.hpp"
 
 
 class PlotteronApp : public mahi::gui::Application {
@@ -21,6 +22,7 @@ public:
 
 private:
     DeviceWidget device_widget;
+    PlotWidget plot_widget;
     
     void reposition_widgets();
 };
