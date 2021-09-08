@@ -7,6 +7,7 @@ FetchContent_Declare(mahi-gui GIT_REPOSITORY https://github.com/mahilab/mahi-gui
 FetchContent_MakeAvailable(mahi-gui)
 
 file(GLOB SOURCES src/*.cpp)
+file(GLOB HEADERS src/*.hpp)
 
-add_executable(plotteron ${SOURCES})
+add_executable(plotteron ${SOURCES} ${HEADERS})
 target_link_libraries(plotteron mahi::gui)
