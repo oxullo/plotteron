@@ -6,6 +6,7 @@
 //
 
 #include <chrono>
+#include <cassert>
 #include <iostream>
 
 #include "serialport.hpp"
