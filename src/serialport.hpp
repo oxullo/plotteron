@@ -21,6 +21,7 @@ public:
 
     void connect(std::string dev_path);
     void disconnect();
+    void dump_ports();
     std::vector<std::string> get_available_ports();
     
 private:
@@ -28,7 +29,6 @@ private:
     bool is_connected;
     
     void connection_handler();
-    void dump_ports();
 };
 
 #endif /* serialport_hpp */
