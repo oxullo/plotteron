@@ -10,6 +10,7 @@
 
 #include <Mahi/Gui.hpp>
 
+#include "serialport.hpp"
 #include "devicewidget.hpp"
 #include "plotwidget.hpp"
 
@@ -21,6 +22,7 @@ public:
     void update() override;
 
 private:
+    SerialPort serial_port;
     DeviceWidget device_widget;
     PlotWidget plot_widget;
     

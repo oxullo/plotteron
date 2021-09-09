@@ -2,7 +2,6 @@
 
 #include "plotteronapp.hpp"
 
-
 int main(int argc, char const *argv[])
 {    
     mahi::gui::Application::Config config;
@@ -17,5 +16,6 @@ int main(int argc, char const *argv[])
 
     PlotteronApp app(config);
     app.run();
+
     return 0;
 }
