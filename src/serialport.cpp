@@ -8,6 +8,7 @@
 #include <chrono>
 #include <cassert>
 #include <iostream>
+#include <random>
 
 #include "serialport.hpp"
 
@@ -58,14 +59,17 @@ void SerialPort::disconnect()
 void SerialPort::connection_handler()
 {
     is_connected = true;
-    std::cerr << "started" << std::endl;
-
+    std::cerr << "Connection handler started" << std::endl;
+    
+    std::default_random_engine generator;
+    std::uniform_real_distribution<double> distribution(0.0,1.0);
+    
     while (is_connected) {
-        std::cerr << "alive" << std::endl;
-        std::this_thread::sleep_for( std::chrono::seconds(1) );
+        data_queue.emplace(distribution(generator));
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
     
-    std::cerr << "Terminated" << std::endl;
+    std::cerr << "Connection handler terminated" << std::endl;
 }
 
 void SerialPort::dump_ports()

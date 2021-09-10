@@ -11,7 +11,10 @@
 #include <thread>
 #include <vector>
 #include <string>
+#include <queue>
 #include <libserialport.h>
+
+#include "datapoint.hpp"
 
 
 class SerialPort {
@@ -24,11 +27,13 @@ public:
     void dump_ports();
     std::vector<std::string> get_available_ports();
     
+    std::queue<DataPoint> data_queue;
+    
 private:
+    void connection_handler();
+
     std::thread connection_thread;
     bool is_connected;
-    
-    void connection_handler();
 };
 
 #endif /* serialport_hpp */
