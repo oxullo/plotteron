@@ -9,15 +9,15 @@
 
 #include "datapoint.hpp"
 
-DataPoint::DataPoint(double value) : timestamp(std::chrono::high_resolution_clock::now()), value(value)
+DataPoint::DataPoint(double timestamp, double value) : timestamp(timestamp), value(value)
 {
-//    std::cerr << "Datapoint ts=" << timestamp.time_since_epoch().count() << std::endl;
+//    std::cerr << "Datapoint ts=" << timestamp << std::endl;
 //    std::cerr << "DP v=" << value << std::endl;
 }
 
 double DataPoint::get_timestamp()
 {
-    return timestamp.time_since_epoch().count();
+    return timestamp;
 }
 
 double DataPoint::get_value()

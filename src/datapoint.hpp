@@ -8,16 +8,15 @@
 #ifndef datapoint_hpp
 #define datapoint_hpp
 
-#include <chrono>
 
 class DataPoint {
 public:
-    DataPoint(double value);
+    DataPoint(double timestamp, double value);
     double get_timestamp();
     double get_value();
     
 private:
-    std::chrono::high_resolution_clock::time_point timestamp;
+    double timestamp;
     double value;
 };
 
