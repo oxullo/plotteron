@@ -7,9 +7,9 @@
 
 #include "scrollingbuffer.hpp"
 
-ScrollingBuffer::ScrollingBuffer(int max_size) : max_size(max_size), offset(0)
+ScrollingBuffer::ScrollingBuffer(int initial_size) : max_size(initial_size), offset(0)
 {
-    data.reserve(max_size);
+    data.reserve(initial_size);
 }
 
 void ScrollingBuffer::add_point(double x, double y)
@@ -48,3 +48,10 @@ double ScrollingBuffer::get_max_x()
         return 0;
     }
 }
+
+void ScrollingBuffer::resize(int size) {
+    erase();
+    data.reserve(size);
+    max_size = size;
+}
+

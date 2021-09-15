@@ -46,6 +46,10 @@ void PlotteronApp::update()
     
     ImGui::Text("Offset: %d", plot_widget.buffer.offset);
     ImGui::Text("Size: %d", plot_widget.buffer.data.size());
+    static float history_length = 1;
+    if (ImGui::SliderFloat("History", &history_length, 1, 60, "%.1f s")) {
+        plot_widget.set_history_length(history_length);
+    }
 
     while (!serial_port.data_queue.empty()) {
         DataPoint point = serial_port.data_queue.front();

@@ -13,12 +13,13 @@
 
 class ScrollingBuffer {
 public:
-    ScrollingBuffer(int max_size=200);
+    ScrollingBuffer(int initial_size=6000);
     
     void add_point(double x, double y);
     void erase();
     double get_min_x();
     double get_max_x();
+    void resize(int size);
     
     ImVector<ImVec2> data;
     int max_size;
