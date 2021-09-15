@@ -14,7 +14,7 @@ public:
     DataPoint(double timestamp, double value);
     double get_timestamp();
     double get_value();
-    
+
 private:
     double timestamp;
     double value;

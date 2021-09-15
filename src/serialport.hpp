@@ -26,9 +26,9 @@ public:
     void disconnect();
     void dump_ports();
     std::vector<std::string> get_available_ports();
-    
+
     std::queue<DataPoint> data_queue;
-    
+
 private:
     void connection_handler();
 

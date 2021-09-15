@@ -18,7 +18,7 @@ public:
     void update() override;
     void add_point(DataPoint& point);
     void set_history_length(float seconds);
-    
+
 //private:
     ScrollingBuffer buffer;
     float history_length;

@@ -11,7 +11,7 @@ void DeviceWidget::update()
 {
     ImGui::BeginFixed("Device", position, size, ImGuiWindowFlags_NoTitleBar);
     ImGui::BeginGroup();
-    
+
     ImGui::PushItemWidth(200);
     if (ImGui::BeginCombo("##serial_device", "Serial device"))
     {
@@ -33,7 +33,7 @@ void DeviceWidget::update()
     }
     ImGui::PopItemWidth();
 //    gui.status.showTooltip("Sel2ct API");
-    
+
     ImGui::EndGroup();
     ImGui::End();
 }

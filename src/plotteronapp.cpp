@@ -20,7 +20,7 @@ PlotteronApp::PlotteronApp(const Application::Config config) :
 void PlotteronApp::update()
 {
     static bool enabled = false;
-    
+
     reposition_widgets();
     device_widget.update();
     if (true ||enabled) {
@@ -36,14 +36,14 @@ void PlotteronApp::update()
         }
         enabled = true;
     }
-    
+
     ImGui::SameLine();
-    
+
     if (ImGui::Button("Stop")) {
         serial_port.disconnect();
         enabled = false;
     }
-    
+
     ImGui::Text("Offset: %d", plot_widget.buffer.offset);
     ImGui::Text("Size: %d", plot_widget.buffer.data.size());
     static float history_length = 1;
@@ -62,7 +62,7 @@ void PlotteronApp::reposition_widgets()
 {
     ImVec2 viewport_pos = ImGui::GetMainViewport()->Pos;
     ImVec2 viewport_size = ImGui::GetMainViewport()->Size;
-    
+
     device_widget.position = viewport_pos;
     device_widget.size = ImVec2(viewport_size.x, 50);
 

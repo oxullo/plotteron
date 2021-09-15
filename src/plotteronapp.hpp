@@ -18,14 +18,14 @@
 class PlotteronApp : public mahi::gui::Application {
 public:
     PlotteronApp(const Application::Config config);
-    
+
     void update() override;
 
 private:
     SerialPort serial_port;
     DeviceWidget device_widget;
     PlotWidget plot_widget;
-    
+
     void reposition_widgets();
 };
 

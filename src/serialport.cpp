@@ -28,11 +28,11 @@ std::vector<std::string> SerialPort::get_available_ports()
     struct sp_port** ports;
 
     enum sp_return result = sp_list_ports(&ports);
-    
+
     assert(result == SP_OK);
-    
+
     std::vector<std::string> port_names;
-    
+
     for (uint8_t i = 0; ports[i] != NULL; i++) {
         port_names.push_back(std::string(sp_get_port_name(ports[i])));
     }
@@ -60,7 +60,7 @@ void SerialPort::connection_handler()
 {
     is_connected = true;
     std::cerr << "Connection handler started" << std::endl;
-    
+
     std::default_random_engine generator;
     std::uniform_real_distribution<double> distribution(0.0,1.0);
 
@@ -70,7 +70,7 @@ void SerialPort::connection_handler()
         data_queue.emplace(duration.count(), distribution(generator));
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
-    
+
     std::cerr << "Connection handler terminated" << std::endl;
 }
 

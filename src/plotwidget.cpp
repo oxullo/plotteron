@@ -26,7 +26,7 @@ void PlotWidget::update()
         }
         ImPlot::EndPlot();
     }
-    
+
     ImGui::End();
 }
 

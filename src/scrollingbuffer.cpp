@@ -54,4 +54,3 @@ void ScrollingBuffer::resize(int size) {
     data.reserve(size);
     max_size = size;
 }
-
