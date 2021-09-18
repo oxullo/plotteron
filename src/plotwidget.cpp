@@ -15,11 +15,12 @@ PlotWidget::PlotWidget() : Widget(), history_length(10)
 
 void PlotWidget::update()
 {
-    ImGui::BeginFixed("Plot", position, size, ImGuiWindowFlags_NoTitleBar);
+//    ImGui::BeginFixed("Plot", position, size, ImGuiWindowFlags_NoTitleBar);
+    ImGui::Begin("Plot");
 
     static ImPlotAxisFlags rt_axis = ImPlotAxisFlags_NoTickLabels;
     ImPlot::SetNextPlotLimitsX(buffer.get_max_x() - history_length, buffer.get_max_x(), ImGuiCond_Always);
-    if (ImPlot::BeginPlot("##Scrolling", NULL, NULL, size, rt_axis, rt_axis | ImPlotAxisFlags_LockMin)) {
+    if (ImPlot::BeginPlot("##Scrolling", NULL, NULL, ImVec2(-1, -1), rt_axis, rt_axis | ImPlotAxisFlags_LockMin)) {
         if (buffer.data.size() > 0) {
             ImPlot::SetNextFillStyle(IMPLOT_AUTO_COL,0.5f);
             ImPlot::PlotLine("Points", &buffer.data[0].x, &buffer.data[0].y, buffer.data.size(), buffer.offset, 2 * sizeof(float));
@@ -32,7 +33,7 @@ void PlotWidget::update()
 
 void PlotWidget::add_point(DataPoint &point)
 {
-    std::cerr << "DP ts=" << point.get_timestamp() << " v=" << point.get_value() << std::endl;
+//    std::cerr << "DP ts=" << point.get_timestamp() << " v=" << point.get_value() << std::endl;
     buffer.add_point(point.get_timestamp(), point.get_value());
 }
 

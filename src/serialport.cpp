@@ -5,16 +5,21 @@
 //  Created by OXullo Intersecans on 08.09.21.
 //
 
-#include <chrono>
 #include <cassert>
 #include <iostream>
 #include <random>
 
+#include <Mahi/Util/Logging/Log.hpp>
+
 #include "serialport.hpp"
+
+using namespace mahi::util;
+
 
 SerialPort::SerialPort() :
     connection_thread(),
-    is_connected(false)
+    is_connected(false),
+    port(NULL)
 {
 }
 
@@ -45,6 +50,7 @@ std::vector<std::string> SerialPort::get_available_ports()
 void SerialPort::connect(std::string dev_path)
 {
     disconnect();
+    open_port(dev_path);
     connection_thread = std::thread(&SerialPort::connection_handler, this);
 }
 
@@ -59,19 +65,34 @@ void SerialPort::disconnect()
 void SerialPort::connection_handler()
 {
     is_connected = true;
-    std::cerr << "Connection handler started" << std::endl;
+    LOG(Verbose) << "Connection handler started";
 
-    std::default_random_engine generator;
-    std::uniform_real_distribution<double> distribution(0.0,1.0);
+//    std::default_random_engine generator;
+//    std::uniform_real_distribution<double> distribution(0.0,1.0);
 
-    std::chrono::steady_clock::time_point connection_time = std::chrono::steady_clock::now();
+    connection_time = std::chrono::steady_clock::now();
+    char read_buffer[128];
+    std::stringbuf line_buffer;
+    std::ostream os (&line_buffer);
+
     while (is_connected) {
-        std::chrono::duration<double, std::nano> duration = std::chrono::steady_clock::now() - connection_time;
-        data_queue.emplace(duration.count(), distribution(generator));
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        int bytes_read = sp_blocking_read_next(port, read_buffer, 128, 100);
+        if (bytes_read > 0) {
+            for (int i = 0; i < bytes_read; ++i) {
+                char c = read_buffer[i];
+                if (c == '\n') {
+                    process_line(line_buffer.str());
+                    line_buffer.str("");
+                } else if (c != '\r') {
+                    os << c;
+                }
+            }
+        }
     }
 
-    std::cerr << "Connection handler terminated" << std::endl;
+    close_port();
+
+    LOG(Verbose) << "Connection handler terminated";
 }
 
 void SerialPort::dump_ports()
@@ -94,7 +115,7 @@ void SerialPort::dump_ports()
                 std::cerr << "  Type: Native" << std::endl;
         } else if (transport == SP_TRANSPORT_USB) {
                 /* This is a USB to serial converter of some kind. */
-                std::cerr << "Type: USB" << std::endl;
+                std::cerr << "  Type: USB" << std::endl;
 
                 /* Display string information from the USB descriptors. */
                 std::cerr << "  Manufacturer: " << sp_get_port_usb_manufacturer(port) << std::endl;
@@ -120,4 +141,54 @@ void SerialPort::dump_ports()
     }
 
     sp_free_port_list(ports);
+}
+
+bool SerialPort::open_port(std::string port_name)
+{
+    if (sp_get_port_by_name(port_name.c_str(), &port) != SP_OK) {
+        LOG(Error) << "Cannot find a port named " << port_name;
+        return false;
+    }
+
+    LOG(Info) << "Opened port: " << sp_get_port_description(port);
+
+    enum sp_return rc = sp_open(port, SP_MODE_READ_WRITE);
+    if (rc != SP_OK) {
+        if (rc == SP_ERR_FAIL) {
+            char* error_message = sp_last_error_message();
+            LOG(Error) << "Cannot open port " << port_name << ": " << error_message;
+            sp_free_error_message(error_message);
+        }
+        sp_free_port(port);
+        return false;
+    }
+
+    // TODO: check each RC
+    // TODO: port configuration to runtime options
+    sp_set_baudrate(port, 115200);
+    sp_set_bits(port, 8);
+    sp_set_parity(port, SP_PARITY_NONE);
+    sp_set_stopbits(port, 1);
+    sp_set_flowcontrol(port, SP_FLOWCONTROL_NONE);
+
+    return true;
+}
+
+void SerialPort::close_port()
+{
+    LOG(Info) << "Closing port: " << sp_get_port_description(port);
+
+    if (sp_close(port) != SP_OK) {
+        LOG(Error) << "Error while closing port";
+    }
+    sp_free_port(port);
+}
+
+void SerialPort::process_line(std::string line)
+{
+//    std::cerr << "Line: |" << line << "|" << std::endl;
+    double value = std::stod(line);
+    std::chrono::duration<double, std::nano> duration = std::chrono::steady_clock::now() - connection_time;
+    data_queue.emplace(duration.count(), value);
+
 }

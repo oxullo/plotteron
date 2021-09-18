@@ -21,19 +21,19 @@ void PlotteronApp::update()
 {
     static bool enabled = false;
 
-    reposition_widgets();
+//    reposition_widgets();
     device_widget.update();
     if (true ||enabled) {
         plot_widget.update();
     }
 //    std::cerr << "size: x=" << ImGui::GetMainViewport()->Size.x << " y=" << ImGui::GetMainViewport()->Size.y << std::endl;
     if (ImGui::Button("Start")) {
-        serial_port.connect("/dev/tty.usbmodem14401");
-        std::vector<std::string> v = serial_port.get_available_ports();
-        
-        for(const auto& value: v) {
-            std::cerr << value << std::endl;
-        }
+        serial_port.connect("/dev/ttyACM0");
+//        std::vector<std::string> v = serial_port.get_available_ports();
+//
+//        for(const auto& value: v) {
+//            std::cerr << value << std::endl;
+//        }
         enabled = true;
     }
 

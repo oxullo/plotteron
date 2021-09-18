@@ -9,7 +9,8 @@
 
 void DeviceWidget::update()
 {
-    ImGui::BeginFixed("Device", position, size, ImGuiWindowFlags_NoTitleBar);
+//    ImGui::BeginFixed("Device", position, size, ImGuiWindowFlags_NoTitleBar);
+    ImGui::Begin("Device");
     ImGui::BeginGroup();
 
     ImGui::PushItemWidth(200);

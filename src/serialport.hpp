@@ -12,6 +12,8 @@
 #include <vector>
 #include <string>
 #include <queue>
+#include <chrono>
+
 #include <libserialport.h>
 
 #include "datapoint.hpp"
@@ -31,9 +33,14 @@ public:
 
 private:
     void connection_handler();
+    bool open_port(std::string port_name);
+    void close_port();
+    void process_line(std::string line);
 
     std::thread connection_thread;
     bool is_connected;
+    struct sp_port *port;
+    std::chrono::steady_clock::time_point connection_time;
 };
 
 #endif /* serialport_hpp */
