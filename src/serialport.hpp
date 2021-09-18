@@ -27,7 +27,7 @@ public:
     void connect(std::string dev_path);
     void disconnect();
     void dump_ports();
-    std::vector<std::string> get_available_ports();
+    std::vector<std::string> get_available_devices();
 
     std::queue<DataPoint> data_queue;
 

@@ -22,11 +22,13 @@ public:
     void update() override;
 
 private:
+    void reposition_widgets();
+
     SerialPort serial_port;
     DeviceWidget device_widget;
     PlotWidget plot_widget;
-
-    void reposition_widgets();
+    float history_length;
+    std::string selected_device;
 };
 
 

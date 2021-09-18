@@ -28,7 +28,7 @@ SerialPort::~SerialPort()
     disconnect();
 }
 
-std::vector<std::string> SerialPort::get_available_ports()
+std::vector<std::string> SerialPort::get_available_devices()
 {
     struct sp_port** ports;
 

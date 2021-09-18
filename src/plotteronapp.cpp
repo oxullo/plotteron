@@ -13,40 +13,41 @@ PlotteronApp::PlotteronApp(const Application::Config config) :
     mahi::gui::Application(config),
     serial_port(),
     device_widget(),
-    plot_widget()
+    plot_widget(),
+    history_length(10)
 {
+    plot_widget.set_history_length(history_length);
 }
 
 void PlotteronApp::update()
 {
-    static bool enabled = false;
-
 //    reposition_widgets();
-    device_widget.update();
-    if (true ||enabled) {
-        plot_widget.update();
+//    device_widget.update();
+    plot_widget.update();
+
+    if (ImGui::BeginCombo("Serial device", selected_device.c_str())) {
+        std::vector<std::string> devices = serial_port.get_available_devices();
+
+        for (const std::string& value: devices) {
+            if (ImGui::Selectable(value.c_str(), selected_device == value)) {
+                selected_device = value;
+            }
+        }
+        ImGui::EndCombo();
     }
-//    std::cerr << "size: x=" << ImGui::GetMainViewport()->Size.x << " y=" << ImGui::GetMainViewport()->Size.y << std::endl;
+
     if (ImGui::Button("Start")) {
-        serial_port.connect("/dev/ttyACM0");
-//        std::vector<std::string> v = serial_port.get_available_ports();
-//
-//        for(const auto& value: v) {
-//            std::cerr << value << std::endl;
-//        }
-        enabled = true;
+        serial_port.connect(selected_device);
     }
 
     ImGui::SameLine();
 
     if (ImGui::Button("Stop")) {
         serial_port.disconnect();
-        enabled = false;
     }
 
     ImGui::Text("Offset: %d", plot_widget.buffer.offset);
     ImGui::Text("Size: %d", plot_widget.buffer.data.size());
-    static float history_length = 1;
     if (ImGui::SliderFloat("History", &history_length, 1, 60, "%.1f s")) {
         plot_widget.set_history_length(history_length);
     }
