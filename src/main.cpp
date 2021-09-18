@@ -1,10 +1,15 @@
 #include <Mahi/Gui.hpp>
+#include <Mahi/Util/Logging/Log.hpp>
 
 #include "plotteronapp.hpp"
+
+using namespace mahi::util;
 
 int main(int argc, char const *argv[])
 {    
     mahi::gui::Application::Config config;
+
+    LOG(Info) << "Plotteron starting up";
 
     config.title     = "Plotteron";
     config.width     = 800;
