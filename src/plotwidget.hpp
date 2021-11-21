@@ -15,8 +15,10 @@
 class PlotWidget : public Widget {
 public:
     PlotWidget(PlotteronApp& app);
+
     void update() override;
     void add_point(DataPoint& point);
+    void clear_points();
     void set_history_length(float seconds);
 
 //private:

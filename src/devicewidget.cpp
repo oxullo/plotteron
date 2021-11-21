@@ -37,6 +37,7 @@ void DeviceWidget::update()
         } else {
             if (ImGui::Button("Connect")) {
                 serial_port.connect(selected_device);
+                on_connected.emit();
             }
         }
     }
@@ -45,7 +46,6 @@ void DeviceWidget::update()
         DataPoint point = serial_port.data_queue.front();
         serial_port.data_queue.pop();
         on_point_acquired.emit(point);
-//        plot_widget.add_point(point);
     }
     ImGui::End();
 }

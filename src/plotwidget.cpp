@@ -19,7 +19,6 @@ void PlotWidget::update()
     ImGui::SetNextWindowViewport(viewport->ID);
 
     ImGui::BeginFixed("Plot", position, size, ImGuiWindowFlags_NoTitleBar);
-//    ImGui::Begin("Plot");
 
     ImGui::SliderFloat("History", &history_length, 1, 60, "%.1f s");
 
@@ -47,4 +46,9 @@ void PlotWidget::add_point(DataPoint &point)
 void PlotWidget::set_history_length(float seconds)
 {
     history_length = seconds;
+}
+
+void PlotWidget::clear_points()
+{
+    buffer.erase();
 }

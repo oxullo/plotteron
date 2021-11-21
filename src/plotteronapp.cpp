@@ -18,6 +18,7 @@ PlotteronApp::PlotteronApp(const Application::Config config) :
     plot_widget.set_history_length(history_length);
 
     device_widget.on_point_acquired.connect(plot_widget, &PlotWidget::add_point);
+    device_widget.on_connected.connect(plot_widget, &PlotWidget::clear_points);
 }
 
 void PlotteronApp::update()

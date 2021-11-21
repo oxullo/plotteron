@@ -17,6 +17,7 @@ public:
     void update() override;
 
     mahi::util::Event<void(DataPoint&)> on_point_acquired;
+    mahi::util::Event<void(void)> on_connected;
 
 private:
     SerialPort serial_port;
