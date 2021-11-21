@@ -18,7 +18,7 @@ using namespace mahi::util;
 
 SerialPort::SerialPort() :
     connection_thread(),
-    is_connected(false),
+    connected(false),
     port(NULL)
 {
 }
@@ -56,7 +56,7 @@ void SerialPort::connect(std::string dev_path)
 
 void SerialPort::disconnect()
 {
-    is_connected = false;
+    connected = false;
     if (connection_thread.joinable()) {
         connection_thread.join();
     }
@@ -64,7 +64,7 @@ void SerialPort::disconnect()
 
 void SerialPort::connection_handler()
 {
-    is_connected = true;
+    connected = true;
     LOG(Verbose) << "Connection handler started";
 
 //    std::default_random_engine generator;
@@ -75,7 +75,7 @@ void SerialPort::connection_handler()
     std::stringbuf line_buffer;
     std::ostream os (&line_buffer);
 
-    while (is_connected) {
+    while (connected) {
         int bytes_read = sp_blocking_read_next(port, read_buffer, 128, 100);
         if (bytes_read > 0) {
             for (int i = 0; i < bytes_read; ++i) {

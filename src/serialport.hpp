@@ -29,6 +29,11 @@ public:
     void dump_ports();
     std::vector<std::string> get_available_devices();
 
+    bool is_connected() const
+    {
+        return connected;
+    }
+
     std::queue<DataPoint> data_queue;
 
 private:
@@ -38,7 +43,7 @@ private:
     void process_line(std::string line);
 
     std::thread connection_thread;
-    bool is_connected;
+    bool connected;
     struct sp_port *port;
     std::chrono::steady_clock::time_point connection_time;
 };
