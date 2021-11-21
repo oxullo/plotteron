@@ -22,11 +22,13 @@ void PlotWidget::update()
 
     ImGui::SliderFloat("History", &history_length, 1, 60, "%.1f s");
 
-    static ImPlotAxisFlags rt_axis = ImPlotAxisFlags_NoTickLabels;
     float max_x = buffer.get_max_x() - history_length * 1000000000;
 
-    ImPlot::SetNextPlotLimitsX(max_x, buffer.get_max_x(), ImGuiCond_Always);
-    if (ImPlot::BeginPlot("##Scrolling", NULL, NULL, ImVec2(-1, -1), rt_axis, rt_axis | ImPlotAxisFlags_LockMin)) {
+    if (ImPlot::BeginPlot("##Scrolling", ImVec2(-1, -1))) {
+        ImPlot::SetupAxes(NULL, NULL, ImPlotAxisFlags_NoTickLabels, ImPlotAxisFlags_AutoFit);
+        ImPlot::SetupAxisLimits(ImAxis_X1, max_x, buffer.get_max_x(), ImGuiCond_Always);
+        ImPlot::SetupAxisLimits(ImAxis_Y1, 0,1);
+
         if (buffer.data.size() > 0) {
             ImPlot::SetNextFillStyle(IMPLOT_AUTO_COL,0.5f);
             ImPlot::PlotLine("Points", &buffer.data[0].x, &buffer.data[0].y, buffer.data.size(), buffer.offset, 2 * sizeof(float));

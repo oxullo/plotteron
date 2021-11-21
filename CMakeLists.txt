@@ -6,7 +6,7 @@ include(FetchContent)
 include(ExternalProject)
 
 # mahi-gui
-FetchContent_Declare(mahi-gui GIT_REPOSITORY https://github.com/mahilab/mahi-gui.git) 
+FetchContent_Declare(mahi-gui GIT_REPOSITORY https://github.com/oxullo/mahi-gui.git) 
 FetchContent_MakeAvailable(mahi-gui)
 
 # libserialport
