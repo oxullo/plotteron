@@ -9,17 +9,24 @@
 
 #include "plotwidget.hpp"
 
-PlotWidget::PlotWidget() : Widget(), history_length(10)
+PlotWidget::PlotWidget(PlotteronApp& app) : Widget(app), history_length(10)
 {
 }
 
 void PlotWidget::update()
 {
-//    ImGui::BeginFixed("Plot", position, size, ImGuiWindowFlags_NoTitleBar);
-    ImGui::Begin("Plot");
+    const ImGuiViewport* viewport = ImGui::GetMainViewport();
+    ImGui::SetNextWindowViewport(viewport->ID);
+
+    ImGui::BeginFixed("Plot", position, size, ImGuiWindowFlags_NoTitleBar);
+//    ImGui::Begin("Plot");
+
+    ImGui::SliderFloat("History", &history_length, 1, 60, "%.1f s");
 
     static ImPlotAxisFlags rt_axis = ImPlotAxisFlags_NoTickLabels;
-    ImPlot::SetNextPlotLimitsX(buffer.get_max_x() - history_length, buffer.get_max_x(), ImGuiCond_Always);
+    float max_x = buffer.get_max_x() - history_length * 1000000000;
+
+    ImPlot::SetNextPlotLimitsX(max_x, buffer.get_max_x(), ImGuiCond_Always);
     if (ImPlot::BeginPlot("##Scrolling", NULL, NULL, ImVec2(-1, -1), rt_axis, rt_axis | ImPlotAxisFlags_LockMin)) {
         if (buffer.data.size() > 0) {
             ImPlot::SetNextFillStyle(IMPLOT_AUTO_COL,0.5f);
@@ -39,5 +46,5 @@ void PlotWidget::add_point(DataPoint &point)
 
 void PlotWidget::set_history_length(float seconds)
 {
-    history_length = seconds * 1000000000;
+    history_length = seconds;
 }

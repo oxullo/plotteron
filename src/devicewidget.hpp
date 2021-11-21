@@ -9,11 +9,18 @@
 #define devicewidget_hpp
 
 #include "widget.hpp"
+#include "serialport.hpp"
 
 class DeviceWidget : public Widget {
 public:
-    DeviceWidget() : Widget() {};
+    DeviceWidget(PlotteronApp& app);
     void update() override;
+
+    mahi::util::Event<void(DataPoint&)> on_point_acquired;
+
+private:
+    SerialPort serial_port;
+    std::string selected_device;
 };
 
 #endif /* devicewidget_hpp */

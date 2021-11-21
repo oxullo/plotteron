@@ -12,8 +12,8 @@ int main(int argc, char const *argv[])
     LOG(Info) << "Plotteron starting up";
 
     config.title     = "Plotteron";
-    config.width     = 800;
-    config.height    = 600;
+    config.width     = 1600;
+    config.height    = 1000;
 //    config.resizable = false;
     config.msaa      = true;
     config.center    = true;

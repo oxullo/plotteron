@@ -7,34 +7,41 @@
 
 #include "devicewidget.hpp"
 
+DeviceWidget::DeviceWidget(PlotteronApp& app) :
+    Widget(app),
+    serial_port()
+{
+}
+
 void DeviceWidget::update()
 {
-//    ImGui::BeginFixed("Device", position, size, ImGuiWindowFlags_NoTitleBar);
-    ImGui::Begin("Device");
-    ImGui::BeginGroup();
+    ImGui::BeginFixed("Device", position, ImVec2(size.x, 100), ImGuiWindowFlags_NoTitleBar);
+    if (ImGui::BeginCombo("Serial device", selected_device.c_str())) {
+        std::vector<std::string> devices = serial_port.get_available_devices();
 
-    ImGui::PushItemWidth(200);
-    if (ImGui::BeginCombo("##serial_device", "Serial device"))
-    {
-        ImGui::Selectable("1234");
-        ImGui::Selectable("abc");
-        ImGui::Selectable("444");
-        ImGui::Selectable("1231114");
-//        for (auto &pair : m_available)
-//        {
-//            bool isSelected = m_currentApi == pair.first;
-//            if (ImGui::Selectable(pair.first.c_str(), isSelected))
-//            {
-//                switchApi(pair.first);
-//            }
-//            if (isSelected)
-//                ImGui::SetItemDefaultFocus();
-//        }
+        for (const std::string& value: devices) {
+            if (ImGui::Selectable(value.c_str(), selected_device == value)) {
+                selected_device = value;
+            }
+        }
         ImGui::EndCombo();
     }
-    ImGui::PopItemWidth();
-//    gui.status.showTooltip("Sel2ct API");
 
-    ImGui::EndGroup();
+    if (ImGui::Button("Start")) {
+        serial_port.connect(selected_device);
+    }
+
+    ImGui::SameLine();
+
+    if (ImGui::Button("Stop")) {
+        serial_port.disconnect();
+    }
+
+    while (!serial_port.data_queue.empty()) {
+        DataPoint point = serial_port.data_queue.front();
+        serial_port.data_queue.pop();
+        on_point_acquired.emit(point);
+//        plot_widget.add_point(point);
+    }
     ImGui::End();
 }

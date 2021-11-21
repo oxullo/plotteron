@@ -11,52 +11,20 @@
 
 PlotteronApp::PlotteronApp(const Application::Config config) :
     mahi::gui::Application(config),
-    serial_port(),
-    device_widget(),
-    plot_widget(),
+    device_widget(*this),
+    plot_widget(*this),
     history_length(10)
 {
     plot_widget.set_history_length(history_length);
+
+    device_widget.on_point_acquired.connect(plot_widget, &PlotWidget::add_point);
 }
 
 void PlotteronApp::update()
 {
-//    reposition_widgets();
-//    device_widget.update();
+    reposition_widgets();
     plot_widget.update();
-
-    if (ImGui::BeginCombo("Serial device", selected_device.c_str())) {
-        std::vector<std::string> devices = serial_port.get_available_devices();
-
-        for (const std::string& value: devices) {
-            if (ImGui::Selectable(value.c_str(), selected_device == value)) {
-                selected_device = value;
-            }
-        }
-        ImGui::EndCombo();
-    }
-
-    if (ImGui::Button("Start")) {
-        serial_port.connect(selected_device);
-    }
-
-    ImGui::SameLine();
-
-    if (ImGui::Button("Stop")) {
-        serial_port.disconnect();
-    }
-
-    ImGui::Text("Offset: %d", plot_widget.buffer.offset);
-    ImGui::Text("Size: %d", plot_widget.buffer.data.size());
-    if (ImGui::SliderFloat("History", &history_length, 1, 60, "%.1f s")) {
-        plot_widget.set_history_length(history_length);
-    }
-
-    while (!serial_port.data_queue.empty()) {
-        DataPoint point = serial_port.data_queue.front();
-        serial_port.data_queue.pop();
-        plot_widget.add_point(point);
-    }
+    device_widget.update();
 }
 
 void PlotteronApp::reposition_widgets()

@@ -10,7 +10,6 @@
 
 #include <Mahi/Gui.hpp>
 
-#include "serialport.hpp"
 #include "devicewidget.hpp"
 #include "plotwidget.hpp"
 
@@ -24,11 +23,9 @@ public:
 private:
     void reposition_widgets();
 
-    SerialPort serial_port;
     DeviceWidget device_widget;
     PlotWidget plot_widget;
     float history_length;
-    std::string selected_device;
 };
 
 
