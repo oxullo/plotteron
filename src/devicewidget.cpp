@@ -7,7 +7,7 @@
 
 #include "devicewidget.hpp"
 
-DeviceWidget::DeviceWidget(PlotteronApp& app) :
+DeviceWidget::DeviceWidget(App& app) :
     Widget(app),
     serial_port()
 {

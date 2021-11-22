@@ -14,9 +14,9 @@
 #include "plotwidget.hpp"
 
 
-class PlotteronApp : public mahi::gui::Application {
+class App : public mahi::gui::Application {
 public:
-    PlotteronApp(const Application::Config config);
+    App(const Application::Config config);
 
     void update() override;
 

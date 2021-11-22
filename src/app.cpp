@@ -5,11 +5,12 @@
 //  Created by OXullo Intersecans on 31.08.21.
 //
 
+#include "app.hpp"
+
 #include <iostream>
 
-#include "plotteronapp.hpp"
 
-PlotteronApp::PlotteronApp(const Application::Config config) :
+App::App(const Application::Config config) :
     mahi::gui::Application(config),
     device_widget(*this),
     plot_widget(*this),
@@ -21,14 +22,14 @@ PlotteronApp::PlotteronApp(const Application::Config config) :
     device_widget.on_connected.connect(plot_widget, &PlotWidget::clear_points);
 }
 
-void PlotteronApp::update()
+void App::update()
 {
     reposition_widgets();
     plot_widget.update();
     device_widget.update();
 }
 
-void PlotteronApp::reposition_widgets()
+void App::reposition_widgets()
 {
     ImVec2 viewport_pos = ImGui::GetMainViewport()->Pos;
     ImVec2 viewport_size = ImGui::GetMainViewport()->Size;

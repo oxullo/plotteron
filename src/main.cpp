@@ -1,7 +1,7 @@
 #include <Mahi/Gui.hpp>
 #include <Mahi/Util/Logging/Log.hpp>
 
-#include "plotteronapp.hpp"
+#include "app.hpp"
 
 using namespace mahi::util;
 
@@ -19,7 +19,7 @@ int main(int argc, char const *argv[])
     config.center    = true;
     // config.decorated = false;
 
-    PlotteronApp app(config);
+    App app(config);
     app.run();
 
     return 0;

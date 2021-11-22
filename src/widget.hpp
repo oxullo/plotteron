@@ -10,17 +10,17 @@
 
 #include <Mahi/Gui.hpp>
 
-class PlotteronApp;
+class App;
 
 class Widget {
 public:
-    Widget(PlotteronApp& app);
+    Widget(App& app);
     virtual void update() { };
 
     mahi::gui::Vec2 position, size;
 
 private:
-    PlotteronApp& app;
+    App& app;
 };
 
 #endif /* widget_hpp */

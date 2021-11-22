@@ -13,7 +13,7 @@
 
 class DeviceWidget : public Widget {
 public:
-    DeviceWidget(PlotteronApp& app);
+    DeviceWidget(App& app);
     void update() override;
 
     mahi::util::Event<void(DataPoint&)> on_point_acquired;

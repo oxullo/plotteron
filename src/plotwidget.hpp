@@ -14,7 +14,7 @@
 
 class PlotWidget : public Widget {
 public:
-    PlotWidget(PlotteronApp& app);
+    PlotWidget(App& app);
 
     void update() override;
     void add_point(DataPoint& point);

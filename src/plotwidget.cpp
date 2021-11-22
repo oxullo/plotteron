@@ -9,7 +9,7 @@
 
 #include "plotwidget.hpp"
 
-PlotWidget::PlotWidget(PlotteronApp& app) : Widget(app), history_length(10)
+PlotWidget::PlotWidget(App& app) : Widget(app), history_length(10)
 {
 }
 

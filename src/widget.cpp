@@ -7,6 +7,6 @@
 
 #include "widget.hpp"
 
-Widget::Widget(PlotteronApp& app) : app(app)
+Widget::Widget(App& app) : app(app)
 {
 }
