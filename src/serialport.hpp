@@ -24,7 +24,7 @@ public:
     SerialPort();
     ~SerialPort();
 
-    void connect(std::string dev_path);
+    void connect(std::string dev_path, int baudrate);
     void disconnect();
     void dump_ports();
     std::vector<std::string> get_available_devices();
@@ -38,7 +38,7 @@ public:
 
 private:
     void connection_handler();
-    bool open_port(std::string port_name);
+    bool open_port(std::string port_name, int baudrate);
     void close_port();
     void process_line(std::string line);
 

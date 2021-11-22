@@ -22,6 +22,7 @@ public:
 private:
     SerialPort serial_port;
     std::string selected_device;
+    int current_baudrate;
 };
 
 #endif /* devicewidget_hpp */

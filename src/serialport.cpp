@@ -47,10 +47,10 @@ std::vector<std::string> SerialPort::get_available_devices()
     return port_names;
 }
 
-void SerialPort::connect(std::string dev_path)
+void SerialPort::connect(std::string dev_path, int baudrate)
 {
     disconnect();
-    open_port(dev_path);
+    open_port(dev_path, baudrate);
     connection_thread = std::thread(&SerialPort::connection_handler, this);
 }
 
@@ -143,14 +143,12 @@ void SerialPort::dump_ports()
     sp_free_port_list(ports);
 }
 
-bool SerialPort::open_port(std::string port_name)
+bool SerialPort::open_port(std::string port_name, int baudrate)
 {
     if (sp_get_port_by_name(port_name.c_str(), &port) != SP_OK) {
         LOG(Error) << "Cannot find a port named " << port_name;
         return false;
     }
-
-    LOG(Info) << "Opened port: " << sp_get_port_description(port);
 
     enum sp_return rc = sp_open(port, SP_MODE_READ_WRITE);
     if (rc != SP_OK) {
@@ -163,25 +161,32 @@ bool SerialPort::open_port(std::string port_name)
         return false;
     }
 
+    if (sp_set_baudrate(port, baudrate) != SP_OK) {
+        LOG(Error) << "Cannot open port " << port_name << "Invalid baudrate " << baudrate;
+        sp_free_port(port);
+        return false;
+    }
+
     // TODO: check each RC
     // TODO: port configuration to runtime options
-    sp_set_baudrate(port, 115200);
     sp_set_bits(port, 8);
     sp_set_parity(port, SP_PARITY_NONE);
     sp_set_stopbits(port, 1);
     sp_set_flowcontrol(port, SP_FLOWCONTROL_NONE);
+
+    LOG(Info) << "Opened port: " << sp_get_port_description(port) << " baudrate: " << baudrate;
 
     return true;
 }
 
 void SerialPort::close_port()
 {
-    LOG(Info) << "Closing port: " << sp_get_port_description(port);
-
     if (sp_close(port) != SP_OK) {
         LOG(Error) << "Error while closing port";
     }
     sp_free_port(port);
+
+    LOG(Info) << "Closed port: " << sp_get_port_description(port);
 }
 
 void SerialPort::process_line(std::string line)
