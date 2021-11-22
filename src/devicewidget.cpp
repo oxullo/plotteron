@@ -15,7 +15,8 @@ DeviceWidget::DeviceWidget(PlotteronApp& app) :
 
 void DeviceWidget::update()
 {
-    ImGui::BeginFixed("Device", position, ImVec2(size.x, 50), ImGuiWindowFlags_NoTitleBar);
+    ImGui::BeginFixed("Device", position, size, ImGuiWindowFlags_NoTitleBar);
+    ImGui::PushItemWidth(150);
     if (ImGui::BeginCombo("Serial device", selected_device.c_str())) {
         std::vector<std::string> devices = serial_port.get_available_devices();
 
@@ -26,6 +27,7 @@ void DeviceWidget::update()
         }
         ImGui::EndCombo();
     }
+    ImGui::PopItemWidth();
 
     ImGui::SameLine();
 
