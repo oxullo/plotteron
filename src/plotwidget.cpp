@@ -44,7 +44,7 @@ void PlotWidget::update()
     ImGui::End();
 }
 
-void PlotWidget::add_point(DataPoint &point)
+void PlotWidget::add_point(Sample &point)
 {
 //    std::cerr << "DP ts=" << point.get_timestamp() << " v=" << point.get_value() << std::endl;
     try {

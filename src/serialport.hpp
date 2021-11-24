@@ -16,7 +16,7 @@
 
 #include <libserialport.h>
 
-#include "datapoint.hpp"
+#include "sample.hpp"
 
 
 class SerialPort {
@@ -34,7 +34,7 @@ public:
         return connected;
     }
 
-    std::queue<DataPoint> data_queue;
+    std::queue<Sample> data_queue;
 
 private:
     void connection_handler();

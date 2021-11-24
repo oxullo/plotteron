@@ -16,7 +16,7 @@ public:
     DeviceWidget(App& app);
     void update() override;
 
-    mahi::util::Event<void(DataPoint&)> on_point_acquired;
+    mahi::util::Event<void(Sample&)> on_point_acquired;
     mahi::util::Event<void(void)> on_connected;
 
 private:

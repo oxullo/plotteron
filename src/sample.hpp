@@ -5,13 +5,13 @@
 //  Created by OXullo Intersecans on 10.09.21.
 //
 
-#ifndef datapoint_hpp
-#define datapoint_hpp
+#ifndef sample_hpp
+#define sample_hpp
 
 
-class DataPoint {
+class Sample {
 public:
-    DataPoint(double timestamp, std::string raw_line);
+    Sample(double timestamp, std::string raw_line);
     double get_timestamp();
     std::string get_raw_line();
     double get_value();
@@ -21,4 +21,4 @@ private:
     std::string raw_line;
 };
 
-#endif /* datapoint_hpp */
+#endif /* sample_hpp */

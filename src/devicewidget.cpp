@@ -70,7 +70,7 @@ void DeviceWidget::update()
     }
 
     while (!serial_port.data_queue.empty()) {
-        DataPoint point = serial_port.data_queue.front();
+        Sample point = serial_port.data_queue.front();
         serial_port.data_queue.pop();
         on_point_acquired.emit(point);
     }
