@@ -11,13 +11,14 @@
 
 class DataPoint {
 public:
-    DataPoint(double timestamp, double value);
+    DataPoint(double timestamp, std::string raw_line);
     double get_timestamp();
+    std::string get_raw_line();
     double get_value();
 
 private:
     double timestamp;
-    double value;
+    std::string raw_line;
 };
 
 #endif /* datapoint_hpp */

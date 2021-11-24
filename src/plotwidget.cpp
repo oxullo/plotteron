@@ -7,7 +7,12 @@
 
 #include <iostream>
 
+#include <Mahi/Util/Logging/Log.hpp>
+
 #include "plotwidget.hpp"
+
+using namespace mahi::util;
+
 
 PlotWidget::PlotWidget(App& app) : Widget(app), history_length(10)
 {
@@ -42,7 +47,12 @@ void PlotWidget::update()
 void PlotWidget::add_point(DataPoint &point)
 {
 //    std::cerr << "DP ts=" << point.get_timestamp() << " v=" << point.get_value() << std::endl;
-    buffer.add_point(point.get_timestamp(), point.get_value());
+    try {
+        double value = point.get_value();
+        buffer.add_point(point.get_timestamp(), point.get_value());
+    } catch (const std::invalid_argument& exc) {
+        LOG(Error) << "Unable to parse line: " << point.get_raw_line();
+    }
 }
 
 void PlotWidget::set_history_length(float seconds)

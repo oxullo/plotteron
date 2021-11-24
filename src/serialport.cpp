@@ -192,13 +192,7 @@ void SerialPort::close_port()
 void SerialPort::process_line(std::string line)
 {
 //    std::cerr << "Line: |" << line << "|" << std::endl;
-    try {
-        double value = std::stod(line);
-        std::chrono::duration<double, std::nano> duration = std::chrono::steady_clock::now() - connection_time;
-        data_queue.emplace(duration.count(), value);
-    } catch (const std::invalid_argument& exc) {
-        LOG(Error) << "Unable to parse line: " << line;
-        return;
-    }
+    std::chrono::duration<double, std::nano> duration = std::chrono::steady_clock::now() - connection_time;
+    data_queue.emplace(duration.count(), line);
 
 }
