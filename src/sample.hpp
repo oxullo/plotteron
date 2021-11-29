@@ -14,7 +14,6 @@ public:
     Sample(double timestamp, std::string raw_line);
     double get_timestamp();
     std::string get_raw_line();
-    double get_value();
 
 private:
     double timestamp;

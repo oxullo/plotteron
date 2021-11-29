@@ -21,8 +21,8 @@ public:
     void clear_points();
     void set_history_length(float seconds);
 
-//private:
-    ScrollingBuffer buffer;
+private:
+    std::vector<ScrollingBuffer> buffers;
     float history_length;
 };
 

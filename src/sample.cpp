@@ -30,8 +30,3 @@ std::string Sample::get_raw_line()
 {
     return raw_line;
 }
-
-double Sample::get_value()
-{
-    return std::stod(raw_line);
-}
