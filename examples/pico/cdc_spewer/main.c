@@ -20,7 +20,7 @@ int main()
     while (1) {
         ++iterations;
         gpio_put(LED_PIN, !gpio_get(LED_PIN));
-        printf("%f\n", amplitude * sin(alpha));
+        printf("%f %f %f\n", amplitude * sin(alpha), amplitude / 2 * cos(alpha + 0.01), amplitude * sin(alpha*1.5));
         alpha += 0.2;
         if (iterations % 1000 == 0) {
             amplitude += 0.5;
