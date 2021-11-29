@@ -15,6 +15,11 @@
 
 using namespace mahi::util;
 
+namespace {
+const int READ_BUFFER_SIZE = 128;
+const int READ_TIMEOUT = 100;
+}
+
 
 SerialPort::SerialPort() :
     connection_thread(),
@@ -67,16 +72,16 @@ void SerialPort::connection_handler()
     connected = true;
     LOG(Verbose) << "Connection handler started";
 
-//    std::default_random_engine generator;
-//    std::uniform_real_distribution<double> distribution(0.0,1.0);
-
     connection_time = std::chrono::steady_clock::now();
-    char read_buffer[128];
+    char read_buffer[READ_BUFFER_SIZE];
     std::stringbuf line_buffer;
     std::ostream os (&line_buffer);
 
+    sp_flush(port, SP_BUF_INPUT);
+
     while (connected) {
-        int bytes_read = sp_blocking_read_next(port, read_buffer, 128, 100);
+        int bytes_read = sp_blocking_read_next(port, read_buffer,
+                READ_BUFFER_SIZE, READ_TIMEOUT);
         if (bytes_read > 0) {
             for (int i = 0; i < bytes_read; ++i) {
                 char c = read_buffer[i];
