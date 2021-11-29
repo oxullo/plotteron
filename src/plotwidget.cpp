@@ -40,7 +40,7 @@ void PlotWidget::update()
             int index = 1;
             ImPlot::SetNextFillStyle(IMPLOT_AUTO_COL, 0.5f);
             for (auto buffer : buffers) {
-                std::string legend = "Points " + std::to_string(index++);
+                std::string legend = "Track " + std::to_string(index++);
                 ImPlot::PlotLine(legend.c_str(),
                         &buffer.data[0].x, &buffer.data[0].y,
                         buffer.data.size(), buffer.offset, 2 * sizeof(float));
