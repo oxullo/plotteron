@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.11)
 
 project(Plotteron VERSION 0.1.0)
 
+configure_file(src/config.hpp.in config.hpp)
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+
 include(FetchContent) 
 include(ExternalProject)
 
