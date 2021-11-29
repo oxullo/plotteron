@@ -204,12 +204,12 @@ bool SerialPort::open_port(std::string port_name, int baudrate)
 
 void SerialPort::close_port()
 {
+    LOG(Info) << "Closing port: " << sp_get_port_description(port);
+
     if (sp_close(port) != SP_OK) {
         LOG(Error) << "Error while closing port";
     }
     sp_free_port(port);
-
-    LOG(Info) << "Closed port: " << sp_get_port_description(port);
 }
 
 void SerialPort::process_line(std::string line)
