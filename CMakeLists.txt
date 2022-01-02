@@ -19,8 +19,25 @@ FetchContent_Declare(libserialport GIT_REPOSITORY https://github.com/oxullo/libs
 FetchContent_MakeAvailable(libserialport)
 
 # Plotteron
-file(GLOB SOURCES src/*.cpp)
-file(GLOB HEADERS src/*.hpp)
+set(SOURCES
+	src/app.cpp
+	src/main.cpp
+	src/sample.cpp
+	src/serialport.cpp
+	src/devicewidget.cpp
+	src/plotwidget.cpp
+	src/scrollingbuffer.cpp
+	src/widget.cpp
+)
+set(HEADERS
+	src/app.hpp
+	src/devicewidget.hpp
+	src/plotwidget.hpp
+	src/sample.hpp
+	src/scrollingbuffer.hpp
+	src/serialport.hpp
+	src/widget.hpp
+)
 
 add_executable(plotteron ${SOURCES} ${HEADERS})
 target_link_libraries(plotteron mahi::gui libserialport)
