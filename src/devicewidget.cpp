@@ -28,6 +28,7 @@
 namespace {
 
 const std::map<int, const char*> baudrates {
+    {9600, "9600"},
     {38400, "38400"},
     {57600, "57600"},
     {115200, "115200"},
