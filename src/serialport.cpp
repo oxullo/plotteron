@@ -185,17 +185,35 @@ bool SerialPort::open_port(std::string port_name, int baudrate)
     }
 
     if (sp_set_baudrate(port, baudrate) != SP_OK) {
-        LOG(Error) << "Cannot open port " << port_name << "Invalid baudrate " << baudrate;
+        LOG(Error) << "Cannot open port " << port_name << ": invalid baudrate " << baudrate;
         sp_free_port(port);
         return false;
     }
 
-    // TODO: check each RC
     // TODO: port configuration to runtime options
-    sp_set_bits(port, 8);
-    sp_set_parity(port, SP_PARITY_NONE);
-    sp_set_stopbits(port, 1);
-    sp_set_flowcontrol(port, SP_FLOWCONTROL_NONE);
+    if (sp_set_bits(port, 8) != SP_OK) {
+        LOG(Error) << "Cannot open port " << port_name << ": unable to set 8 bits operation";
+        sp_free_port(port);
+        return false;
+    }
+
+    if (sp_set_parity(port, SP_PARITY_NONE) != SP_OK) {
+        LOG(Error) << "Cannot open port " << port_name << ": unable to set no parity operation";
+        sp_free_port(port);
+        return false;
+    }
+
+    if (sp_set_stopbits(port, 1) != SP_OK) {
+        LOG(Error) << "Cannot open port " << port_name << ": unable to set 1 bit stop operation";
+        sp_free_port(port);
+        return false;
+    }
+
+    if (sp_set_flowcontrol(port, SP_FLOWCONTROL_NONE) != SP_OK) {
+        LOG(Error) << "Cannot open port " << port_name << ": unable to set no flow control operation";
+        sp_free_port(port);
+        return false;
+    }
 
     LOG(Info) << "Opened port: " << sp_get_port_description(port) << " baudrate: " << baudrate;
 
